@@ -4,7 +4,7 @@ import os
 import sys
 import email
 import datetime
-from email.utils import parsedate_tz, mktime_tz
+from email.utils import parsedate_tz
 from optparse import OptionParser
 
 from registration import Registration
@@ -24,7 +24,6 @@ def main():
         fp = open(os.path.join(options.input_dir,filename),'r')
         msg = email.message_from_file(fp)
         datetime_tuple = parsedate_tz(msg.get('Date'))
-        local_date = datetime.datetime.fromtimestamp(email.utils.mktime_tz(datetime_tuple))
         for part in msg.walk():
              if part.get_content_type() == 'text/plain':
                  reg = Registration(datetime_tuple, part.get_payload())
